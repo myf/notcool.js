@@ -34,7 +34,15 @@
        ctx.fillStyle = 'Grey';
        command.push(charStr);
        if (charCode == 13){
-            alert(command.join(""));
+            alert(command.join(''));
+            if (command.slice(0,12).join('') =='hackerschool'){
+
+                ctx.font = "71pt Arial";
+                ctx.fillStyle = 'Red';
+                ctx.fillText('hackerschool',xcur_init,ycur+100,400);
+                ctx.font = "11pt Arial";
+                ctx.fillStyle = 'Grey';
+            }   
             command = new Array();
             ycur = ycur+font+grace;
             xcur = xcur_init;
