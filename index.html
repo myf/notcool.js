@@ -1,0 +1,58 @@
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+  var socket = io.connect('http://localhost');
+  socket.on('news', function (data) {
+    console.log(data);
+    socket.emit('something else', {data:"what the hell"});
+  });
+</script>
+
+<canvas id="term" tabindex="1" width="500" height="600"></canvas>
+
+<script type="text/javascript">
+   var el = document.getElementById("term");
+   var ctx = el.getContext('2d');
+   var xcur_init = 20;
+   var ycur_init = 20;
+   xcur = xcur_init;
+   ycur = ycur_init;
+   var prev = new Array(xcur, ycur);
+   grace = 5;
+   var font = 11;
+       ctx.font = "11pt Arial";
+       ctx.fillStyle = 'Grey';
+       var head = '~>';
+       ctx.fillText(head,xcur,ycur,40);
+       xcur = xcur+font*head.length;  
+   //while (i<=5){
+   var command = new Array();
+   el.onkeypress = function(evt) {
+       var charCode = evt.which;
+       var charStr = String.fromCharCode(charCode);
+       ctx.font = "11pt Arial";
+       ctx.fillStyle = 'Grey';
+       command.push(charStr);
+       if (charCode == 13){
+            alert(command.join(""));
+            command = new Array();
+            ycur = ycur+font+grace;
+            xcur = xcur_init;
+            ctx.fillText(head,xcur,ycur,40);
+            xcur = xcur+font*head.length;  
+        }
+       ctx.fillText(charStr,xcur,ycur,100);
+       xcur = xcur+font;
+       if (xcur>=el.width){
+            ycur=ycur+font+grace;
+            xcur=xcur_init;
+        }
+       if (charCode == 8) {
+            
+
+        }
+       
+   };
+   //}
+</script>
+
