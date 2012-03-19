@@ -17,50 +17,75 @@
    var ycur_init = 20;
    xcur = xcur_init;
    ycur = ycur_init;
-   var prev = new Array(xcur, ycur);
    grace = 5;
    var font = 11;
-       ctx.font = "11pt Arial";
+        //creating head
+   function fillhead() {
+        xcur = xcur_init;
+       ctx.font = "11pt Monospace";
        ctx.fillStyle = 'Grey';
        var head = '~>';
        ctx.fillText(head,xcur,ycur,40);
        xcur = xcur+font*head.length;  
-   //while (i<=5){
+   }
+   function easter() {
+
+                ctx.font = "71pt Monospace";
+                ctx.fillStyle = 'Red';
+                ctx.fillText('hackerschool',xcur_init,ycur+71,400);
+                ycur = ycur+71;
+                ctx.font = "11pt Monospace";
+                ctx.fillStyle = 'Green';
+    }
+    function redraw(){
+        
+    }
+   fillhead();
+    //press key
    var command = new Array();
+   
    el.onkeypress = function(evt) {
        var charCode = evt.which;
        var charStr = String.fromCharCode(charCode);
-       ctx.font = "11pt Arial";
-       ctx.fillStyle = 'Grey';
+       ctx.font = "11pt Monospace";
+       ctx.fillStyle = 'Green';
+       //actuall fill
        command.push(charStr);
-       if (charCode == 13){
-            alert(command.join(''));
-            if (command.slice(0,12).join('') =='hackerschool'){
-
-                ctx.font = "71pt Arial";
-                ctx.fillStyle = 'Red';
-                ctx.fillText('hackerschool',xcur_init,ycur+100,400);
-                ctx.font = "11pt Arial";
-                ctx.fillStyle = 'Grey';
-            }   
-            command = new Array();
-            ycur = ycur+font+grace;
-            xcur = xcur_init;
-            ctx.fillText(head,xcur,ycur,40);
-            xcur = xcur+font*head.length;  
-        }
        ctx.fillText(charStr,xcur,ycur,100);
        xcur = xcur+font;
+       //wrap
        if (xcur>=el.width){
             ycur=ycur+font+grace;
             xcur=xcur_init;
         }
-       if (charCode == 8) {
-            
-
+       //when enter key pressed
+       if (charCode == 13){
+            alert(command.join(''));
+            if (command.slice(0,12).join('') =='hackerschool'){
+                easter();
+            }   
+            if (command.slice(0,5).join('') =='clear'){
+                redraw();
+            }
+            command = new Array();
+            ycur = ycur+font+grace;
+            fillhead();
         }
        
    };
-   //}
+   //backspace magic
+   el.onkeydown = function(evt) {
+       var charCode = evt.which;
+       var charStr = String.fromCharCode(charCode);
+       if (charCode === 8) {
+            alert("bam! BACKSPACE KEY!");
+            xcur = xcur + font;
+            //go back to the previous xcur,ycur
+            //draw white block
+            //delete char from array
+            //go back the previous xcur,ycur            
+
+       }
+   };
 </script>
 
