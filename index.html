@@ -18,6 +18,8 @@
    xcur = xcur_init;
    ycur = ycur_init;
    grace = 5;
+   xbound = 20;
+   
    var font = 11;
         //creating head
    function fillhead() {
@@ -34,15 +36,22 @@
                 ctx.fillStyle = 'Red';
                 ctx.fillText('hackerschool',xcur_init,ycur+71,400);
                 ycur = ycur+71;
-                ctx.font = "11pt Monospace";
-                ctx.fillStyle = 'Green';
+                //ctx.font = "11pt Monospace";
+                //ctx.fillStyle = 'Green';
     }
     function redraw(){
-        
+        xcur= xcur_init;
+        ycur= ycur_init;
+        ctx.clearRect(0,0,el.width,el.height);
+        fillhead();
+
     }
+    
+    
    fillhead();
     //press key
    var command = new Array();
+   var pos = new Array();
    
    el.onkeypress = function(evt) {
        var charCode = evt.which;
@@ -51,10 +60,11 @@
        ctx.fillStyle = 'Green';
        //actuall fill
        command.push(charStr);
+       pos.push(new Array(xcur, ycur));
        ctx.fillText(charStr,xcur,ycur,100);
        xcur = xcur+font;
        //wrap
-       if (xcur>=el.width){
+       if (xcur>=el.width-xbound){
             ycur=ycur+font+grace;
             xcur=xcur_init;
         }
@@ -68,6 +78,7 @@
                 redraw();
             }
             command = new Array();
+            pos = new Array();
             ycur = ycur+font+grace;
             fillhead();
         }
@@ -78,12 +89,11 @@
        var charCode = evt.which;
        var charStr = String.fromCharCode(charCode);
        if (charCode === 8) {
-            alert("bam! BACKSPACE KEY!");
-            xcur = xcur + font;
-            //go back to the previous xcur,ycur
-            //draw white block
-            //delete char from array
-            //go back the previous xcur,ycur            
+            command.splice(command.length-1);
+            prev = pos.pop();
+            xcur = prev[0]; 
+            ycur = prev[1]; 
+            ctx.clearRect(xcur,ycur-font,font, font+grace);
 
        }
    };
