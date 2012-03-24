@@ -76,6 +76,9 @@
             }   
             if (command.slice(0,5).join('') =='clear'){
                 redraw();
+                command = new Array();
+                pos = new Array();
+                return;
             }
             command = new Array();
             pos = new Array();
