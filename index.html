@@ -1,16 +1,10 @@
 
 <script src="/socket.io/socket.io.js"></script>
-<script>
-  var socket = io.connect('http://localhost');
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('something else', {data:"what the hell"});
-  });
-</script>
 
 <canvas id="term" tabindex="1" width="500" height="600"></canvas>
 
 <script type="text/javascript">
+  var socket = io.connect('http://localhost');
    var el = document.getElementById("term");
    var ctx = el.getContext('2d');
    var xcur_init = 20;
@@ -21,12 +15,12 @@
    xbound = 20;
    
    var font = 11;
+   var head = '~>';
         //creating head
-   function fillhead() {
+   function fillhead(head) {
         xcur = xcur_init;
        ctx.font = "11pt Monospace";
        ctx.fillStyle = 'Grey';
-       var head = '~>';
        ctx.fillText(head,xcur,ycur,40);
        xcur = xcur+font*head.length;  
    }
@@ -43,13 +37,14 @@
         xcur= xcur_init;
         ycur= ycur_init;
         ctx.clearRect(0,0,el.width,el.height);
-        fillhead();
+        fillhead(head);
 
     }
     
     
-   fillhead();
+   fillhead(head);
     //press key
+    //key events
    var command = new Array();
    var pos = new Array();
    
@@ -68,22 +63,36 @@
             ycur=ycur+font+grace;
             xcur=xcur_init;
         }
+       if(ycur>=el.height-xbound){
+            redraw();
+            
+
+        }
        //when enter key pressed
        if (charCode == 13){
-            alert(command.join(''));
-            if (command.slice(0,12).join('') =='hackerschool'){
+            command.splice(command.length-1);
+           //alert(command.join(''));
+           var data=command.join('');
+            if (data =='hackerschool'){
                 easter();
-            }   
-            if (command.slice(0,5).join('') =='clear'){
+            }else   
+            if (data =='clear'){
                 redraw();
                 command = new Array();
                 pos = new Array();
                 return;
+            }else
+            if (data==="identify myf"){
+                //head = 'myf '+head;
+            }else{
+           socket.emit('request',data);
             }
+                       
             command = new Array();
             pos = new Array();
             ycur = ycur+font+grace;
-            fillhead();
+            //fillhead(head);
+            return;
         }
        
    };
@@ -100,5 +109,23 @@
 
        }
    };
+ 
+
+    socket.on('response', function(output){
+       ctx.font = "11pt Monospace";
+       ctx.fillStyle = 'Green';
+                for (i=0;i<output.length;i++) {
+                xcur = xcur_init;
+                ycur = ycur+font+grace;
+                ctx.fillText(output[i],xcur,ycur);
+                }
+        
+        command = new Array();
+        pos = new Array();
+        fillhead(head);
+        return;
+    });
+
+
 </script>
 

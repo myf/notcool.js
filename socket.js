@@ -42,15 +42,12 @@ function command(com,callback) {
 
 io.sockets.on('connection', function(socket){
     //socket.emit('news', {hello: 'world'});
-    socket.on('enter', function(data){
+    socket.on('request', function(data){
         exec(data, function (error, stdout, stderr){
-        console.log(data.length);
         var output = stdout;
-        var output = output.match(/^.*([]+|$)/gm);
-        console.log(data);
-        console.log(stderr);
-        console.log(output);
+        var output = stdout.match(/^.*([]+|$)/gm);
+        console.log(output.length);
+        socket.emit('response',output);
         });
-        //socket.broadcast.emit(output);
     });
 });
