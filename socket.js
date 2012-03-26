@@ -43,11 +43,15 @@ function command(com,callback) {
 io.sockets.on('connection', function(socket){
     //socket.emit('news', {hello: 'world'});
     socket.on('request', function(data){
-        exec(data, function (error, stdout, stderr){
-        var output = stdout;
-        var output = stdout.match(/^.*([]+|$)/gm);
-        console.log(output.length);
-        socket.emit('response',output);
-        });
+        if (data==="maze"){
+            
+        }else{
+                exec(data, function (error, stdout, stderr){
+                var output = stdout;
+                var output = stdout.match(/^.*([]+|$)/gm);
+                console.log(output.length);
+                socket.emit('response',output);
+                });
+        }
     });
 });
