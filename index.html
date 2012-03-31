@@ -2,7 +2,6 @@
 <script src="/socket.io/socket.io.js"></script>
 
 <canvas id="term" tabindex="1" width="500" height="600"></canvas>
-
 <script type="text/javascript">
   var socket = io.connect('http://localhost');
    var el = document.getElementById("term");
@@ -117,6 +116,8 @@
                 for (i=0;i<output.length;i++) {
                 xcur = xcur_init;
                 ycur = ycur+font+grace;
+                //TODO: count the length of the string on screen, and separate them into lines. WRAPPING
+
                 ctx.fillText(output[i],xcur,ycur);
                 }
         
