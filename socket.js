@@ -7,8 +7,14 @@ var server = require('http').createServer(handler),
 server.listen(3000);
 
 function handler(req, res){
+    var filename = 'index.html';
+    if (req.url === '/term.js') {
+
+        filename = 'term.js';
+    }
+
     
-    fs.readFile(pwd + '/index.html',
+    fs.readFile(pwd + '/'+filename,
     function(err,data){
         if(err){
             res.writeHead(500);
