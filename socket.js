@@ -9,20 +9,19 @@ server.listen(3000);
 function handler(req, res){
     var filename = 'index.html';
     if (req.url === '/term.js') {
-
         filename = 'term.js';
     }
 
     
-    fs.readFile(pwd + '/'+filename,
-    function(err,data){
-        if(err){
-            res.writeHead(500);
-            res.end('500 error');
-            return;
-        }
-        res.writeHead(200);
-        res.end(data);
+    fs.readFile(pwd + '/' + filename,
+        function (err,data) {
+            if (err){
+                res.writeHead(500);
+                res.end('500 error');
+                return;
+            }
+            res.writeHead(200);
+            res.end(data);
     });
 }
 //getting output from a command issued
@@ -46,17 +45,17 @@ function command(com,callback) {
 };
 */
 
-io.sockets.on('connection', function(socket){
+io.sockets.on('connection', function(socket) {
     //socket.emit('news', {hello: 'world'});
-    socket.on('request', function(data){
-        if (data==="maze"){
+    socket.on('request', function(data) {
+        if (data==="maze") {
             
-        }else{
-                exec(data, function (error, stdout, stderr){
-                var output = stdout;
-                var output = stdout.match(/^.*([]+|$)/gm);
-                console.log(output.length);
-                socket.emit('response',output);
+        } else {
+                exec(data, function (error, stdout, stderr) {
+                    var output = stdout;
+                    var output = stdout.match(/^.*([]+|$)/gm);
+                    console.log(output.length);
+                    socket.emit('response',output);
                 });
         }
     });

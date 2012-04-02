@@ -1,5 +1,5 @@
 function terminal_setup(server_address) {
-    var socket = io.connect('http://0.0.0.0');
+    var socket = io.connect(server_address);
     var el = document.getElementById("term");
     var ctx = el.getContext('2d');
     var xcur_init = 20;
