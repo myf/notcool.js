@@ -6,7 +6,7 @@
     <script src="/term.js"></script>
 </head>
 
-<body>
+<body onload="document.getElementById('server_address').value = location.href">
     <input type="text" id="server_address" value="http://localhost"/>
     <input type="button" id="connect" value="connect" onclick="terminal_setup(document.getElementById('server_address').value)"/>
     <canvas id="term" tabindex="1" width="500" height="600"></canvas>
