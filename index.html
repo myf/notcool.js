@@ -4,11 +4,22 @@
     <title>canvas js terminal</title>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/term.js"></script>
+    <script src="/maze.js"></script>
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 </head>
 
 <body onload="document.getElementById('server_address').value = location.href">
     <input type="text" id="server_address" value="http://localhost"/>
     <input type="button" id="connect" value="connect" onclick="terminal_setup(document.getElementById('server_address').value)"/>
-    <canvas id="term" tabindex="1" width="500" height="600"></canvas>
+    <canvas id="term" tabindex="1" width=window_width height=window_height></canvas>
+
+
+<script type="text/javascript">
+    var window_width = window.innerWidth*.75;
+    var window_height = window.innerHeight*.75;
+    var something = document.getElementById('term');
+    something.width = window_width;
+    something.height = window_height;
+</script>
 </body>
 </html>

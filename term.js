@@ -25,7 +25,7 @@ function terminal_setup(server_address) {
                 ctx.fillStyle = 'Red';
                 ctx.fillText('hackerschool',xcur_init,ycur+71,400);
                 ycur = ycur+71;
-                //ctx.font = "11pt Monospace";
+                //ctx.font = font + "pt Monospace";
                 //ctx.fillStyle = 'Green';
     }
     function redraw(){
@@ -35,7 +35,6 @@ function terminal_setup(server_address) {
         fillhead(head);
 
     }
-    
     
     function breakline(line, width) {
         width = width || el.width-xbound-xcur_init;
@@ -74,14 +73,18 @@ function terminal_setup(server_address) {
 
         }
        //when enter key pressed
-       if (charCode == 13){
+       if (charCode === 13){
             command.splice(command.length-1);
            //alert(command.join(''));
            var data=command.join('');
-            if (data =='hackerschool'){
+            if (data ==='maze'){
+                redraw();
+                maze();
+            }else   
+            if (data ==='hackerschool'){
                 easter();
             }else   
-            if (data =='clear'){
+            if (data ==='clear'){
                 redraw();
                 command = [];
                 pos = [];
@@ -117,7 +120,7 @@ function terminal_setup(server_address) {
  
 
     socket.on('response', function(output){
-        ctx.font = "11pt Monospace";
+        ctx.font = font + "pt Monospace";
         ctx.fillStyle = 'Green';
         var lines = [];
         var i, j;
@@ -137,3 +140,14 @@ function terminal_setup(server_address) {
     });
 
 }
+
+/*
+1. if entire canvas functions it can be added as a buffer then just shift up and down
+
+2. create line-objects. when lines>line in the screen, redrawn whole board, delete first line, add the last.
+
+3. creat frame-objects. when lines>line in screen, redrawn whole board. if page_up key presses, redraw earlier board.
+
+4. off-screen canvas at http://stackoverflow.com/questions/5837144/move-image-in-canvas-without-redrawing-entire-canvas
+
+*/
