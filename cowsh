@@ -1,0 +1,12 @@
+
+  if [ -n "$1" ]
+  then
+    echo
+    echo "            (__)"
+    echo "            (oo)"
+    echo "     /-------\/  . . . $ $*"
+    echo "    / |     ||"
+    echo "   *  ||----||"
+    echo "      ^^    ^^"
+  fi
+  printf "cowshell-$VERSION\$ "

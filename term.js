@@ -11,13 +11,29 @@ function terminal_setup(server_address) {
 
     var font = 11;
     var head = '~>';
+    var cowshell = false;
+    var cowsize = 50;
             //creating head
    function fillhead(head) {
         xcur = xcur_init;
+        if (cowshell) {
+           var img = new Image();
+           img.src = '700cow.jpg';
+           img.onload = function () {
+               ctx.drawImage(img,xcur,ycur,cowsize,cowsize);
+                xcur =xcur_init+cowsize;
+               ctx.font = font + "pt Monospace";
+               ctx.fillStyle = 'Grey';
+               ctx.fillText(head,xcur,ycur,40);
+               xcur = xcur+font*head.length;  
+
+            }
+        }else{
        ctx.font = font + "pt Monospace";
        ctx.fillStyle = 'Grey';
        ctx.fillText(head,xcur,ycur,40);
        xcur = xcur+font*head.length;  
+        }
    }
    function easter() {
 
@@ -27,6 +43,15 @@ function terminal_setup(server_address) {
                 ycur = ycur+71;
                 //ctx.font = font + "pt Monospace";
                 //ctx.fillStyle = 'Green';
+    }
+   function easter2() {
+       var img = new Image();
+       img.src = '700cow.jpg';
+       img.onload = function () {
+           ctx.drawImage(img,50,50);
+        }
+
+        
     }
     function redraw(){
         xcur= xcur_init;
@@ -41,7 +66,9 @@ function terminal_setup(server_address) {
         var lines = [],
             char_width = ctx.measureText('a').width,
             chars_per_line = Math.floor(width/char_width);
-        for (var l = line.substr(0,chars_per_line);line.length > 0; line = line.substr(chars_per_line), l = line.substr(0, chars_per_line)) {
+        for (var l = line.substr(0,chars_per_line);
+                line.length > 0; 
+                line = line.substr(chars_per_line), l = line.substr(0, chars_per_line)) {
         lines.push(l);
         }
         return lines;
@@ -64,7 +91,11 @@ function terminal_setup(server_address) {
        xcur = xcur+font;
        //wrap
        if (xcur>=el.width-xbound){
+           if (cowshell) {
+               ycur = ycur+cowsize+grace;
+            }else {
             ycur=ycur+font+grace;
+            }
             xcur=xcur_init;
         }
        if(ycur>=el.height-xbound){
@@ -92,13 +123,25 @@ function terminal_setup(server_address) {
             }else
             if (data==="identify myf"){
                 //head = 'myf '+head;
-            }else{
+            }else
+            if (data == 'cow') {
+                easter2();
+            }else if (data =='cowshell'){
+                cowshell=true;
+            }else if (data == 'cowshell off'){
+                cowshell=false;
+            }
+            else{
            socket.emit('request',data);
             }
                        
             command = [];
             pos = [];
+            if (cowshell){
+                ycur=ycur+cowsize+grace;
+            }else{
             ycur = ycur+font+grace;
+            }
             //fillhead(head);
             return;
         }

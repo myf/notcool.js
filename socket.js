@@ -13,7 +13,8 @@ function handler(req, res){
         filename = 'term.js';
     } else if (req.url==='/maze.js'){
         filename = 'maze.js';
-        
+    } else if (req.url==='/700cow.jpg') {
+        filename = '700cow.jpg';
     }
 
     
